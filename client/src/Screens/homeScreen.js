@@ -6,7 +6,7 @@ function HomeScreen(props) {
 	return (
 		<ul className="products">
 			{data.products.map((product) => (
-				<li>
+				<li key="Home">
 					<div className="product">
 						<Link to={'/product/' + product._id}>
 							<img

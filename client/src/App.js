@@ -41,11 +41,7 @@ function App(props) {
 				</aside>
 				<main className="main">
 					<div className="content">
-						<Route
-							path="/products/:id"
-							exact={true}
-							component={ProductScreen}
-						/>
+						<Route path="/product/:id" component={ProductScreen} />
 						<Route path="/" exact={true} component={HomeScreen} />
 					</div>
 				</main>
