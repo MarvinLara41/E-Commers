@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import ProductScreen from './screens/productScreen';
 import HomeScreen from './screens/homeScreen';
+import CartScreen from './screens/CartScreen';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 function App(props) {
@@ -43,6 +44,7 @@ function App(props) {
 					<div className="content">
 						<Route path="/product/:id" component={ProductScreen} />
 						<Route path="/" exact={true} component={HomeScreen} />
+						<Route path="/cart/:id?" component={CartScreen} />
 					</div>
 				</main>
 				<footer className="footer">All rights reserved.</footer>

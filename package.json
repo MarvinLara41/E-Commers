@@ -1,20 +1,30 @@
 {
-  "name": "E-Commers",
-  "version": "1.0.0",
-  "description": "A fully functional E-Commers site that allows users to view, remove, and purchase items from the site.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MarvinLara41/E-Commers.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MarvinLara41/E-Commers/issues"
-  },
-  "homepage": "https://github.com/MarvinLara41/E-Commers#readme"
+	"name": "e-commers",
+	"version": "1.0.0",
+	"description": "A fully functional E-Commers site that allows users to view, remove, and purchase items from the site.",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon --watch backend --exec babel-node backend/server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MarvinLara41/E-Commers.git"
+	},
+	"keywords": [],
+	"author": "Marvin Lara",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/MarvinLara41/E-Commers/issues"
+	},
+	"homepage": "https://github.com/MarvinLara41/E-Commers#readme",
+	"dependencies": {
+		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.10.3",
+		"@babel/core": "^7.10.3",
+		"@babel/node": "^7.10.3",
+		"@babel/preset-env": "^7.10.3",
+		"nodemon": "^2.0.4"
+	}
 }
