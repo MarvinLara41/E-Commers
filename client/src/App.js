@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import ProductScreen from './Screens/productScreen';
-import HomeScreen from './Screens/homeScreen';
+import ProductScreen from './screens/productScreen';
+import HomeScreen from './screens/homeScreen';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 function App(props) {
