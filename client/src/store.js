@@ -5,8 +5,11 @@ import {
 } from './reducers/productReducers';
 import thunk from 'redux-thunk';
 import { cartReducer } from './reducers/cartReducer';
+import Cookie from 'js-cookie';
 
-const initialState = {};
+const cartItems = Cookie.getJSON('cartItems') || [];
+
+const initialState = { cart: { cartItems } };
 const reducer = combineReducers({
 	productList: productListReducer,
 	productDetails: productDetailsReducer,
