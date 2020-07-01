@@ -5,7 +5,10 @@ import {
 } from './reducers/productReducers';
 import thunk from 'redux-thunk';
 import { cartReducer } from './reducers/cartReducer';
-import { userSigninReducer } from './reducers/userReducers';
+import {
+	userSigninReducer,
+	userRegisterReducer,
+} from './reducers/userReducers';
 import Cookie from 'js-cookie';
 
 const cartItems = Cookie.getJSON('cartItems') || [];
@@ -17,6 +20,7 @@ const reducer = combineReducers({
 	productDetails: productDetailsReducer,
 	cart: cartReducer,
 	userSignin: userSigninReducer,
+	userRegister: userRegisterReducer,
 });
 
 const composeEnchancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,7 +28,7 @@ const composeEnchancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
 	reducer,
 	initialState,
-	compose(applyMiddleware(thunk))
+	composeEnchancer(applyMiddleware(thunk))
 );
 //thunk is a middleware for redux, allows me to run async opperation in redux
 export default store;
