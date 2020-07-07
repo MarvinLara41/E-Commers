@@ -5,8 +5,11 @@ import ProductsScreen from './screens/ProductsScreen';
 import ProductScreen from './screens/productScreen';
 import HomeScreen from './screens/homeScreen';
 import CartScreen from './screens/CartScreen';
+import ShippingScreen from './screens/ShippingScreen';
 import SignInScreen from './screens/signInScreen';
+import PaymentScreen from './screens/paymentScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import PlaceOrderScreen from './screens/placeOrderScreen';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 function App(props) {
@@ -53,7 +56,10 @@ function App(props) {
 				</aside>
 				<main className="main">
 					<div className="content">
+						<Route path="/shipping" component={ShippingScreen} />
+						<Route path="/placeorder" component={PlaceOrderScreen} />
 						<Route path="/products" component={ProductsScreen} />
+						<Route path="/payment" component={PaymentScreen} />
 						<Route path="/signin" component={SignInScreen} />
 						<Route path="/register" component={RegisterScreen} />
 						<Route path="/product/:id" component={ProductScreen} />

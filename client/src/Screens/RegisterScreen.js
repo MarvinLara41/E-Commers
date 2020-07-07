@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { register } from '../actions/userActions';
 
-function SignInScreen(props) {
+function RegisterScreen(props) {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -11,10 +11,13 @@ function SignInScreen(props) {
 	const userRegister = useSelector((state) => state.userRegister);
 	const { loading, userInfo, error } = userRegister;
 	const dispatch = useDispatch();
+	const redirect = props.location.search
+		? props.location.search.split('=')[1]
+		: '/';
 
 	useEffect(() => {
 		if (userInfo) {
-			props.history.push('/');
+			props.history.push(redirect);
 		}
 		return () => {};
 	}, [userInfo]);
@@ -82,7 +85,15 @@ function SignInScreen(props) {
 						</button>
 					</li>
 					<li>
-						Already have an accont? <Link to="/signin"> Sign-In </Link>
+						Already have an accont?{' '}
+						<Link
+							to={
+								redirect === '/' ? 'register' : 'register?redirect=' + redirect
+							}
+						>
+							{' '}
+							Sign-In{' '}
+						</Link>
 					</li>
 				</ul>
 			</form>
@@ -90,4 +101,4 @@ function SignInScreen(props) {
 	);
 }
 
-export default SignInScreen;
+export default RegisterScreen;

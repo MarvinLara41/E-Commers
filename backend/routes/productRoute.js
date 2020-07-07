@@ -8,6 +8,16 @@ router.get('/', async (req, res) => {
 	res.send(products);
 });
 
+router.get('/:id', async (req, res) => {
+	const product = await Product.findOne({ _id: req.params.id });
+
+	if (product) {
+		res.send(products);
+	} else {
+		res.status(494).send({ message: 'Product not found.' });
+	}
+});
+
 router.post('/', async (req, res) => {
 	const product = new Product({
 		name: req.body.name,
