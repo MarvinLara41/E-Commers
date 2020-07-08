@@ -38,6 +38,7 @@ function ShippingScreen(props) {
 								type="address"
 								name="address"
 								id="address"
+								value={address}
 								onChange={(e) => setAddress(e.target.value)}
 								placeholder="Address"
 							></input>

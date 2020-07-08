@@ -2,10 +2,16 @@ import React, { useEffect } from 'react';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { createOrder } from '../actions/orderActions';
 import CheckOutSteps from '../components/CheckOutSteps';
 
 function PlaceOrderScreen(props) {
 	const cart = useSelector((state) => state.cart);
+
+	const createOrder = useSelector((state) => state.orderCreate);
+
+	const { loading, success, error, order } = createOrder;
+
 	const { cartItems, shipping, payment } = cart;
 
 	if (!shipping) {
@@ -21,11 +27,25 @@ function PlaceOrderScreen(props) {
 	const taxPrice = 0.15 * itemsPrice;
 	const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
-	// placeOrderHandler = () =>{
+	const placeOrderHandler = () => {
+		dispatch(
+			createOrder({
+				orderItems: cartItems,
+				shipping,
+				payment,
+				itemsPrice,
+				shippingPrice,
+				taxPrice,
+				totalPrice,
+			})
+		);
+	};
 
-	// }
-
-	useEffect(() => {}, []);
+	useEffect(() => {
+		if (success) {
+			props.history.push('/order/' + order._id);
+		}
+	}, []);
 
 	const checkoutHandler = () => {
 		props.history.push('/signin?redirect=shipping');
@@ -81,7 +101,7 @@ function PlaceOrderScreen(props) {
 				<div className="placeorder-action">
 					<ul>
 						<li>
-							{/* <button onClick={placeOrderHandler}> Place Order </button> */}
+							<button onClick={placeOrderHandler}> Place Order </button>
 						</li>
 						<li>
 							<h3> Order Summary </h3>

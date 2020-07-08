@@ -6,6 +6,7 @@ var localPort = 'http://localhost:5000';
 import mongoose from 'mongoose';
 import userRoute from './routes/userRoute';
 import productRoute from './routes/productRoute';
+import orderRoute from './routes/orderRoute';
 import bodyParser from 'body-parser';
 
 dotenv.config();
@@ -25,7 +26,9 @@ app.use('/api/users', userRoute);
 
 app.use('/api/products', productRoute);
 
-app.use('/api/orders', orderRoute);
+app.use('/api/order', orderRoute);
+
+// app.use('/api/orders', orderRoute);
 
 app.get('/api/config/paypal', (req, res) => {
 	res.send(config.PAYPAL_CLIENT_ID);

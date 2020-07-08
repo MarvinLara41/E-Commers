@@ -10,6 +10,7 @@ import SignInScreen from './screens/signInScreen';
 import PaymentScreen from './screens/paymentScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import PlaceOrderScreen from './screens/placeOrderScreen';
+import OrderScreen from './screens/orderScreen';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 function App(props) {
@@ -63,6 +64,7 @@ function App(props) {
 						<Route path="/signin" component={SignInScreen} />
 						<Route path="/register" component={RegisterScreen} />
 						<Route path="/product/:id" component={ProductScreen} />
+						<Route path="/order/:id" component={OrderScreen} />
 						<Route path="/" exact={true} component={HomeScreen} />
 						<Route path="/cart/:id?" component={CartScreen} />
 					</div>
