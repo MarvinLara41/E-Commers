@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-
-function PayPalButton(props) {
+import axios from 'axios';
+function PaypalButton(props) {
 	const [sdkReady, setSdkReady] = useState(false);
 
 	const addPaypalSdk = async () => {
@@ -14,7 +14,6 @@ function PayPalButton(props) {
 		script.onload = () => {
 			setSdkReady(true);
 		};
-
 		document.body.appendChild(script);
 	};
 
@@ -31,22 +30,25 @@ function PayPalButton(props) {
 		});
 
 	const onApprove = (data, actions) =>
-		actions.order.capture().then((details => props.onSuccess(data, details)).catch(err => console.log(err));
+		actions.order
+			.capture()
+			.then((details) => props.onSuccess(data, details))
+			.catch((err) => console.log(err));
 
 	useEffect(() => {
 		if (!window.paypal) {
 			addPaypalSdk();
 		}
 		return () => {
-			cleanup;
+			//
 		};
 	}, []);
 
 	if (!sdkReady) {
-		return <div> Loading..</div>;
+		return <div>Loading...</div>;
 	}
 
-	const Button = window.paypal.buttons.driver('driver', { React, ReactDOM });
+	const Button = window.paypal.Buttons.driver('react', { React, ReactDOM });
 
 	return (
 		<Button
@@ -57,4 +59,4 @@ function PayPalButton(props) {
 	);
 }
 
-export default PayPalButton;
+export default PaypalButton;

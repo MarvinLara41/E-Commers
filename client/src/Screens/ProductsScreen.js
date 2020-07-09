@@ -6,6 +6,7 @@ import {
 	listProducts,
 	deleteProduct,
 } from '../actions/productActions';
+import axios from 'axios';
 
 function ProductsScreen(props) {
 	const [modalVisable, setModalVisable] = useState(false);
@@ -19,6 +20,7 @@ function ProductsScreen(props) {
 	const [description, setDescription] = useState('');
 	const productSave = useSelector((state) => state.productSave);
 	const productDelete = useSelector((state) => state.productDelete);
+	const [uploading, setUploading] = useState(false);
 	const {
 		loading: loadingSave,
 		success: successSave,
@@ -47,6 +49,7 @@ function ProductsScreen(props) {
 		setName(product.name);
 		setPrice(product.price);
 		setBrand(product.brand);
+		setImage(product.image);
 		setCategory(product.category);
 		setCountInStock(product.countInStock);
 		setDescription(product.description);
@@ -61,6 +64,7 @@ function ProductsScreen(props) {
 				name,
 				price,
 				brand,
+				image,
 				category,
 				countInStock,
 				description,
@@ -70,6 +74,27 @@ function ProductsScreen(props) {
 
 	const deleteHandler = (product) => {
 		dispatch(deleteProduct(product._id));
+	};
+
+	const uploadFileHandler = (e) => {
+		const file = e.target.files[0];
+		const bodyFormData = new FormData();
+		bodyFormData.append('image', file);
+		setUploading(true);
+		axios
+			.post('/api/uploads', bodyFormData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			})
+			.then((response) => {
+				setImage(response.data);
+				setUploading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				setUploading(false);
+			});
 	};
 
 	return (
@@ -122,6 +147,18 @@ function ProductsScreen(props) {
 									onChange={(e) => setBrand(e.target.value)}
 									placeholder="brand"
 								></input>
+							</li>
+							<li>
+								<label htmlFor="image">Image</label>
+								<input
+									type="text"
+									name="image"
+									value={image}
+									id="image"
+									onChange={(e) => setImage(e.target.value)}
+								></input>
+								<input type="file" onChange={uploadFileHandler}></input>
+								{uploading && <div>Uploading...</div>}
 							</li>
 							<li htmlFor="stock">
 								<label>Number of items in Stock</label>
