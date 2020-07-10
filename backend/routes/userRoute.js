@@ -1,6 +1,6 @@
 import express from 'express';
 import User from '../models/userModel';
-import { getToken } from '../util';
+import { getToken, isAuth } from '../util';
 const router = express.Router();
 
 router.post('/signin', async (req, res) => {
@@ -56,6 +56,23 @@ router.get('/createadmin', async (req, res) => {
 		res.send(newUser);
 	} catch (error) {
 		res.send({ msg: error.message });
+	}
+});
+
+router.put('/:id', isAuth, async (req, res) => {
+	const userId = req.params.id;
+
+	const user = await User.findById(userId);
+
+	if (user) {
+		user.name = req.body.name || user.name;
+		user.email = req.body.email || user.email;
+		user.password = req.body.password || user.password;
+		const updateUser = await user.save();
+
+		res.send({ message: 'User updated', data: updateUser });
+	} else {
+		res.status(404).send({ msg: 'User not found' });
 	}
 });
 
