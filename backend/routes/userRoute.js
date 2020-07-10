@@ -70,9 +70,15 @@ router.put('/:id', isAuth, async (req, res) => {
 		user.password = req.body.password || user.password;
 		const updateUser = await user.save();
 
-		res.send({ message: 'User updated', data: updateUser });
+		res.send({
+			_id: updateUser.id,
+			name: updateUser.name,
+			email: updateUser.email,
+			isAdmin: updateUser.isAdmin,
+			token: getToken(updateUser),
+		});
 	} else {
-		res.status(404).send({ msg: 'User not found' });
+		res.status(404).send({ message: 'User not found' });
 	}
 });
 
