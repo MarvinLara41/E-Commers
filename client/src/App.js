@@ -12,6 +12,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import PlaceOrderScreen from './screens/placeOrderScreen';
 import ProfileScreen from './screens/profileScreen';
 import OrderScreen from './screens/orderScreen';
+import OrdersScreen from './screens/ordersScreen';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 function App(props) {
@@ -40,6 +41,17 @@ function App(props) {
 						) : (
 							<Link to="/signin">Sign In</Link>
 						)}
+						{userInfo && userInfo.isAdmin && (
+							<div className="dropdown">
+								{/* <a href="#"> Admin </a> */}
+								<ul className="dropdown-contents">
+									<li>
+										<Link to="/orders">Orders </Link>
+										<Link to="/products"> Prodoucts</Link>
+									</li>
+								</ul>
+							</div>
+						)}
 					</div>
 				</header>
 				<aside className="sidebar">
@@ -47,17 +59,18 @@ function App(props) {
 					<button className="sidebar-close-button" onClick={closeMenu}>
 						x
 					</button>
-					<ul>
+					<ul className="categories">
 						<li>
-							<a href="index.html">Pants</a>
+							<Link to="/category/Pants">Pants</Link>
 						</li>
 						<li>
-							<a href="index.html">Shirts</a>
+							<Link to="/category/Shirts">Shirts</Link>
 						</li>
 					</ul>
 				</aside>
 				<main className="main">
 					<div className="content">
+						<Route path="/orders" component={OrdersScreen} />
 						<Route path="/shipping" component={ShippingScreen} />
 						<Route path="/profile" component={ProfileScreen} />
 						<Route path="/placeorder" component={PlaceOrderScreen} />
@@ -68,6 +81,7 @@ function App(props) {
 						<Route path="/product/:id" component={ProductScreen} />
 						<Route path="/order/:id" component={OrderScreen} />
 						<Route path="/" exact={true} component={HomeScreen} />
+						<Route path="/category/:id?" component={HomeScreen} />
 						<Route path="/cart/:id?" component={CartScreen} />
 					</div>
 				</main>
