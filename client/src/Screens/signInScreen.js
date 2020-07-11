@@ -65,7 +65,9 @@ function SignInScreen(props) {
 					<li>New to E-Commers?</li>
 					<li>
 						<Link
-							to={redirect === '/' ? 'signin' : 'signin?redirect=' + redirect}
+							to={
+								redirect === '/' ? 'register' : 'register?redirect=' + redirect
+							}
 							className="button text-center"
 						>
 							Register your account
