@@ -69,7 +69,7 @@ router.get('/', /*#__PURE__*/function () {
 }());
 router.get('/:id', /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-    var product;
+    var products;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -80,9 +80,9 @@ router.get('/:id', /*#__PURE__*/function () {
             });
 
           case 2:
-            product = _context2.sent;
+            products = _context2.sent;
 
-            if (product) {
+            if (products) {
               res.send(products);
             } else {
               res.status(494).send({

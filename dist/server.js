@@ -2,13 +2,9 @@
 
 var _express = _interopRequireDefault(require("express"));
 
-var _data = _interopRequireDefault(require("./data.js"));
-
 var _path = _interopRequireDefault(require("path"));
 
 var _config = _interopRequireDefault(require("./config"));
-
-var _dotenv = _interopRequireDefault(require("dotenv"));
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
@@ -24,35 +20,30 @@ var _uploadRoute = _interopRequireDefault(require("./routes/uploadRoute"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var localPort = 'http://localhost:5000';
+var PORT = process.env.PORT || 5000;
+var app = (0, _express["default"])();
+var mongodbURI = _config["default"].MONGODB_URI;
 
-_dotenv["default"].config();
-
-var mongodbUrl = _config["default"].MONGODB_URL;
-
-_mongoose["default"].connect(mongodbUrl, {
+_mongoose["default"].connect(mongodbURI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true
+  useUnifiedTopology: true
 })["catch"](function (error) {
   return console.log(error.reason);
 });
 
-var app = (0, _express["default"])();
 app.use(_bodyParser["default"].json());
+app.use('/api/uploads', _uploadRoute["default"]);
 app.use('/api/users', _userRoute["default"]);
 app.use('/api/products', _productRoute["default"]);
-app.use('/api/order', _orderRoute["default"]);
 app.use('/api/orders', _orderRoute["default"]);
-app.use('/api/uploads', _uploadRoute["default"]);
 app.get('/api/config/paypal', function (req, res) {
   res.send(_config["default"].PAYPAL_CLIENT_ID);
 });
 app.use('/uploads', _express["default"]["static"](_path["default"].join(__dirname, '/../uploads')));
-app.use(_express["default"]["static"](_path["default"].join(__dirname, '/../client/build')));
+app.use(_express["default"]["static"](_path["default"].join(__dirname, '/../frontend/build')));
 app.get('*', function (req, res) {
-  res.sendFile(_path["default"].join("".concat(__dirname, "/../client/build/index.html")));
+  res.sendFile(_path["default"].join("".concat(__dirname, "/../frontend/build/index.html")));
 });
-app.listen(5000, function () {
-  console.log('Sever started at ' + localPort);
+app.listen(_config["default"].PORT, function () {
+  console.log('Server started at http://localhost:5000');
 });

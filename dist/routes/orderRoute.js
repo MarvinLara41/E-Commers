@@ -19,7 +19,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var router = _express["default"].Router();
 
-router.get('/mine', _util.isAuth, /*#__PURE__*/function () {
+router.get('/', _util.isAuth, /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
     var orders;
     return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -27,9 +27,7 @@ router.get('/mine', _util.isAuth, /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return _orderModel["default"].find({
-              user: req.user._id
-            });
+            return _orderModel["default"].find({}).populate('user');
 
           case 2:
             orders = _context.sent;
@@ -47,7 +45,7 @@ router.get('/mine', _util.isAuth, /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
-router.get('/', _util.isAuth, /*#__PURE__*/function () {
+router.get('/mine', _util.isAuth, /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
     var orders;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -55,7 +53,9 @@ router.get('/', _util.isAuth, /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return _orderModel["default"].find({}).populate('user');
+            return _orderModel["default"].find({
+              user: req.user._id
+            });
 
           case 2:
             orders = _context2.sent;
@@ -73,9 +73,9 @@ router.get('/', _util.isAuth, /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }());
-router["delete"]('/:id', _util.isAuth, _util.isAdmin, /*#__PURE__*/function () {
+router.get('/:id', _util.isAuth, /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-    var order, deletedOrder;
+    var order;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -88,24 +88,13 @@ router["delete"]('/:id', _util.isAuth, _util.isAdmin, /*#__PURE__*/function () {
           case 2:
             order = _context3.sent;
 
-            if (!order) {
-              _context3.next = 10;
-              break;
+            if (order) {
+              res.send(order);
+            } else {
+              res.status(404).send('Order Not Found.');
             }
 
-            _context3.next = 6;
-            return order.remove();
-
-          case 6:
-            deletedOrder = _context3.sent;
-            res.send(deletedOrder);
-            _context3.next = 11;
-            break;
-
-          case 10:
-            res.status(404).send('Order Not Found.');
-
-          case 11:
+          case 4:
           case "end":
             return _context3.stop();
         }
@@ -117,9 +106,9 @@ router["delete"]('/:id', _util.isAuth, _util.isAdmin, /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }());
-router.get('/:id', _util.isAuth, /*#__PURE__*/function () {
+router["delete"]('/:id', _util.isAuth, _util.isAdmin, /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var order;
+    var order, deletedOrder;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
@@ -132,13 +121,24 @@ router.get('/:id', _util.isAuth, /*#__PURE__*/function () {
           case 2:
             order = _context4.sent;
 
-            if (order) {
-              res.send(order);
-            } else {
-              res.status(404).send('Order Not Found.');
+            if (!order) {
+              _context4.next = 10;
+              break;
             }
 
-          case 4:
+            _context4.next = 6;
+            return order.remove();
+
+          case 6:
+            deletedOrder = _context4.sent;
+            res.send(deletedOrder);
+            _context4.next = 11;
+            break;
+
+          case 10:
+            res.status(404).send('Order Not Found.');
+
+          case 11:
           case "end":
             return _context4.stop();
         }
@@ -203,7 +203,7 @@ router.put('/:id/pay', _util.isAuth, /*#__PURE__*/function () {
             order = _context6.sent;
 
             if (!order) {
-              _context6.next = 13;
+              _context6.next = 14;
               break;
             }
 
@@ -217,24 +217,25 @@ router.put('/:id/pay', _util.isAuth, /*#__PURE__*/function () {
                 paymentID: req.body.paymentID
               }
             };
-            _context6.next = 9;
+            console.log(order);
+            _context6.next = 10;
             return order.save();
 
-          case 9:
+          case 10:
             updatedOrder = _context6.sent;
             res.send({
-              message: 'Order Paid',
+              message: 'Order Paid.',
               order: updatedOrder
             });
-            _context6.next = 14;
+            _context6.next = 15;
             break;
 
-          case 13:
+          case 14:
             res.status(404).send({
               message: 'Order not found.'
             });
 
-          case 14:
+          case 15:
           case "end":
             return _context6.stop();
         }

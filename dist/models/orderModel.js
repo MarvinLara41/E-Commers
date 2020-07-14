@@ -22,10 +22,6 @@ var shippingSchema = {
     type: String,
     required: true
   },
-  state: {
-    type: String,
-    required: true
-  },
   country: {
     type: String,
     required: true
@@ -46,12 +42,15 @@ var orderItemSchema = new _mongoose["default"].Schema({
     type: Number,
     required: true
   },
-  // image: { type: String, required: true},
-  price: {
-    type: Number,
+  image: {
+    type: String,
     required: true
   },
-  products: {
+  price: {
+    type: String,
+    required: true
+  },
+  product: {
     type: _mongoose["default"].Schema.Types.ObjectId,
     ref: 'Product',
     required: true
@@ -93,7 +92,7 @@ var orderSchema = new _mongoose["default"].Schema({
     type: Date
   }
 }, {
-  timestamp: true
+  timestamps: true
 });
 
 var orderModel = _mongoose["default"].model('Order', orderSchema);
