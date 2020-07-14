@@ -60,7 +60,10 @@ function OrdersScreen(props) {
 								<td>{order.isDelivered.toString()}</td>
 								<td>{order.deliveredAt}</td>
 								<td>
-									<Link to={'/order/' + order._id} className="button secondary">
+									<Link
+										to={'/orders/' + order._id}
+										className="button secondary"
+									>
 										Details
 									</Link>
 									<button

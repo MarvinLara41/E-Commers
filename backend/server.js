@@ -1,5 +1,4 @@
 import express from 'express';
-import data from './data.js';
 import path from 'path';
 import config from './config';
 const PORT = process.env.PORT || 5000;
@@ -13,13 +12,11 @@ import uploadRoute from './routes/uploadRoute';
 const app = express();
 
 const mongodbURI = config.MONGODB_URI;
-const mongodbURL = config.MONGODB_URL;
 
 mongoose
-	.connect(mongodbURI || mongodbURL, {
+	.connect(mongodbURI, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
-		useCreateIndex: true,
 	})
 	.catch((error) => console.log(error.reason));
 

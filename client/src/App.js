@@ -35,7 +35,7 @@ function App(props) {
 						<Link to="/"> E-Commers </Link>
 					</div>
 					<div className="header-links">
-						<a href="cart.html">Cart</a>
+						<Link to="/cart">Cart</Link>
 						{userInfo ? (
 							<Link to="/profile"> {userInfo.name} </Link>
 						) : (
@@ -43,7 +43,7 @@ function App(props) {
 						)}
 						{userInfo && userInfo.isAdmin && (
 							<div className="dropdown">
-								{/* <a href="#"> Admin </a> */}
+								<a href="#"> Admin </a>
 								<ul className="dropdown-contents">
 									<li>
 										<Link to="/orders">Orders </Link>
