@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import './App.css';
-import ProductsScreen from './screens/ProductsScreen';
+
 import ProductScreen from './screens/productScreen';
 import HomeScreen from './screens/homeScreen';
 import CartScreen from './screens/CartScreen';
@@ -14,6 +14,7 @@ import ProfileScreen from './screens/profileScreen';
 import OrderScreen from './screens/orderScreen';
 import OrdersScreen from './screens/ordersScreen';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+import ProductsScreen from './screens/ProductsScreen';
 
 function App(props) {
 	const userSignin = useSelector((state) => state.userSignin);
