@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { listOrders, deleteOrder } from '../actions/orderActions';
 
 function OrdersScreen(props) {
 	const orderList = useSelector((state) => state.orderList);
-	const { loading, orders, error } = orderList;
+	const { loading, orders } = orderList;
 
 	const orderDelete = useSelector((state) => state.orderDelete);
 	const {
-		loading: loadingDelete,
+		// loading: loadingDelete,
 		success: successDelete,
-		error: errorDelete,
+		// error: errorDelete,
 	} = orderDelete;
 
 	const dispatch = useDispatch();
@@ -62,7 +62,7 @@ function OrdersScreen(props) {
 								<td>
 									<Link to={'/order/' + order._id} className="button secondary">
 										Details
-									</Link>{' '}
+									</Link>
 									<button
 										type="button"
 										onClick={() => deleteHandler(order)}

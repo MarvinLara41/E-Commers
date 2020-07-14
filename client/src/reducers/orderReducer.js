@@ -19,7 +19,7 @@ import {
 	ORDER_LIST_FAIL,
 } from '../constants/orderConstants';
 
-function OrderCreateReducer(state = {}, action) {
+function orderCreateReducer(state = {}, action) {
 	switch (action.type) {
 		case ORDER_CREATE_REQUEST:
 			return { loading: true };
@@ -32,7 +32,7 @@ function OrderCreateReducer(state = {}, action) {
 	}
 }
 
-function OrderDetailsReducer(
+function orderDetailsReducer(
 	state = {
 		order: {
 			orderItems: [],
@@ -46,30 +46,8 @@ function OrderDetailsReducer(
 		case ORDER_DETAILS_REQUEST:
 			return { loading: true };
 		case ORDER_DETAILS_SUCCESS:
-			return { loading: false, success: true };
-		case ORDER_DETAILS_FAIL:
-			return { loading: false, error: action.payload };
-		default:
-			return state;
-	}
-}
-
-function OrderPayReducer(
-	state = {
-		order: {
-			orderItems: [],
-			shipping: {},
-			payment: {},
-		},
-	},
-	action
-) {
-	switch (action.type) {
-		case ORDER_PAY_REQUEST:
-			return { loading: true };
-		case ORDER_PAY_SUCCESS:
 			return { loading: false, order: action.payload };
-		case ORDER_PAY_FAIL:
+		case ORDER_DETAILS_FAIL:
 			return { loading: false, error: action.payload };
 		default:
 			return state;
@@ -112,6 +90,28 @@ function orderListReducer(
 	}
 }
 
+function orderPayReducer(
+	state = {
+		order: {
+			orderItems: [],
+			shipping: {},
+			payment: {},
+		},
+	},
+	action
+) {
+	switch (action.type) {
+		case ORDER_PAY_REQUEST:
+			return { loading: true };
+		case ORDER_PAY_SUCCESS:
+			return { loading: false, success: true };
+		case ORDER_PAY_FAIL:
+			return { loading: false, error: action.payload };
+		default:
+			return state;
+	}
+}
+
 function orderDeleteReducer(
 	state = {
 		order: {
@@ -135,9 +135,9 @@ function orderDeleteReducer(
 }
 
 export {
-	OrderCreateReducer,
-	OrderDetailsReducer,
-	OrderPayReducer,
+	orderCreateReducer,
+	orderDetailsReducer,
+	orderPayReducer,
 	myOrderListReducer,
 	orderListReducer,
 	orderDeleteReducer,

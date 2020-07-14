@@ -71,18 +71,18 @@ function App(props) {
 				<main className="main">
 					<div className="content">
 						<Route path="/orders" component={OrdersScreen} />
-						<Route path="/shipping" component={ShippingScreen} />
 						<Route path="/profile" component={ProfileScreen} />
-						<Route path="/placeorder" component={PlaceOrderScreen} />
+						<Route path="/order/:id" component={OrderScreen} />
 						<Route path="/products" component={ProductsScreen} />
+						<Route path="/shipping" component={ShippingScreen} />
 						<Route path="/payment" component={PaymentScreen} />
+						<Route path="/placeorder" component={PlaceOrderScreen} />
 						<Route path="/signin" component={SignInScreen} />
 						<Route path="/register" component={RegisterScreen} />
 						<Route path="/product/:id" component={ProductScreen} />
-						<Route path="/order/:id" component={OrderScreen} />
-						<Route path="/" exact={true} component={HomeScreen} />
-						<Route path="/category/:id?" component={HomeScreen} />
 						<Route path="/cart/:id?" component={CartScreen} />
+						<Route path="/category/:id" component={HomeScreen} />
+						<Route path="/" exact={true} component={HomeScreen} />
 					</div>
 				</main>
 				<footer className="footer">All rights reserved.</footer>

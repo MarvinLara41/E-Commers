@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { saveShipping } from '../actions/cartActions';
 import CheckOutSteps from '../components/CheckOutSteps';
 
@@ -23,9 +22,7 @@ function ShippingScreen(props) {
 
 	return (
 		<div>
-			<CheckOutSteps step1 step2>
-				{' '}
-			</CheckOutSteps>
+			<CheckOutSteps step1 step2></CheckOutSteps>
 			<div className="form">
 				<form onSubmit={submitHandler}>
 					<ul className="form-container">

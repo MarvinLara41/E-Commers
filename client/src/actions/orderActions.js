@@ -30,7 +30,7 @@ const createOrder = (order) => async (dispatch, getState) => {
 			data: { data: newOrder },
 		} = await axios.post('/api/orders', order, {
 			headers: {
-				Authorization: 'Bearer' + userInfo.toke,
+				Authorization: ' Bearer ' + userInfo.token,
 			},
 		});
 		dispatch({ type: ORDER_CREATE_SUCCESS, payload: newOrder });
@@ -67,13 +67,10 @@ const payOrder = (order, paymentResult) => async (dispatch, getState) => {
 			'/api/orders/' + order._id + '/pay',
 			paymentResult,
 			{
-				headers: { Authorization: 'Bearer' + userInfo.token },
+				headers: { Authorization: 'Bearer ' + userInfo.token },
 			}
 		);
-		dispatch({
-			type: ORDER_PAY_SUCCESS,
-			payload: data,
-		});
+		dispatch({ type: ORDER_PAY_SUCCESS, payload: data });
 	} catch (error) {
 		dispatch({ type: ORDER_PAY_FAIL, payload: error.message });
 	}

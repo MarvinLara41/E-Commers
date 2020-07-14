@@ -1,33 +1,28 @@
 import React, { useEffect } from 'react';
-import { addToCart, removeFromCart } from '../actions/cartActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import CheckoutSteps from '../components/CheckOutSteps';
 import { createOrder } from '../actions/orderActions';
-import CheckOutSteps from '../components/CheckOutSteps';
-
 function PlaceOrderScreen(props) {
 	const cart = useSelector((state) => state.cart);
-
-	const createOrder = useSelector((state) => state.orderCreate);
-
-	const { loading, success, error, order } = createOrder;
+	const orderCreate = useSelector((state) => state.orderCreate);
+	const { success, order } = orderCreate;
 
 	const { cartItems, shipping, payment } = cart;
-
-	if (!shipping) {
+	if (!shipping.address) {
 		props.history.push('/shipping');
-	} else if (!payment) {
+	} else if (!payment.paymentMethod) {
 		props.history.push('/payment');
 	}
-
-	const dispatch = useDispatch();
-
 	const itemsPrice = cartItems.reduce((a, c) => a + c.price * c.qty, 0);
 	const shippingPrice = itemsPrice > 100 ? 0 : 10;
 	const taxPrice = 0.15 * itemsPrice;
 	const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
+	const dispatch = useDispatch();
+
 	const placeOrderHandler = () => {
+		// create an order
 		dispatch(
 			createOrder({
 				orderItems: cartItems,
@@ -39,31 +34,25 @@ function PlaceOrderScreen(props) {
 				totalPrice,
 			})
 		);
+		console.log(createOrder);
 	};
-
 	useEffect(() => {
 		if (success) {
 			props.history.push('/order/' + order._id);
 		}
-	}, []);
-
-	const checkoutHandler = () => {
-		props.history.push('/signin?redirect=shipping');
-	};
+	}, [success]);
 
 	return (
 		<div>
-			<CheckOutSteps step1 step2 step3 step4>
-				{' '}
-			</CheckOutSteps>
+			<CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
 			<div className="placeorder">
 				<div className="placeorder-info">
 					<div>
 						<h3>Shipping</h3>
 						<div>
-							{cart.shipping.address},{cart.shipping.city},{cart.shipping.state}
-							,{cart.shipping.postalCode}
-							{cart.shipping.country}
+							{cart.shipping.address}, {cart.shipping.city},
+							{cart.shipping.state},{cart.shipping.postalCode},
+							{cart.shipping.country},
 						</div>
 					</div>
 					<div>
@@ -73,8 +62,8 @@ function PlaceOrderScreen(props) {
 					<div>
 						<ul className="cart-list-container">
 							<li>
-								<h3> Shopping Cart </h3>
-								<div> Price </div>
+								<h3>Shopping Cart</h3>
+								<div>Price</div>
 							</li>
 							{cartItems.length === 0 ? (
 								<div>Cart is empty</div>
@@ -84,12 +73,11 @@ function PlaceOrderScreen(props) {
 										<div className="cart-image">
 											<img src={item.image} alt="product" />
 										</div>
-
 										<div className="cart-name">
 											<div>
 												<Link to={'/product/' + item.product}>{item.name}</Link>
 											</div>
-											<div>Qty:{item.qty}</div>
+											<div>Qty: {item.qty}</div>
 										</div>
 										<div className="cart-price">${item.price}</div>
 									</li>
@@ -101,26 +89,31 @@ function PlaceOrderScreen(props) {
 				<div className="placeorder-action">
 					<ul>
 						<li>
-							<button onClick={placeOrderHandler}> Place Order </button>
+							<button
+								className="button primary full-width"
+								onClick={placeOrderHandler}
+							>
+								Place Order
+							</button>
 						</li>
 						<li>
-							<h3> Order Summary </h3>
+							<h3>Order Summary</h3>
 						</li>
 						<li>
-							<div> Items</div>
-							<div> ${itemsPrice} </div>
+							<div>Items</div>
+							<div>${itemsPrice}</div>
 						</li>
 						<li>
-							<div> Shipping</div>
-							<div> ${shippingPrice} </div>
+							<div>Shipping</div>
+							<div>${shippingPrice}</div>
 						</li>
 						<li>
-							<div> Tax</div>
-							<div> ${taxPrice} </div>
+							<div>Tax</div>
+							<div>${taxPrice}</div>
 						</li>
 						<li>
-							<div> Order Total</div>
-							<div> ${totalPrice} </div>
+							<div>Order Total</div>
+							<div>${totalPrice}</div>
 						</li>
 					</ul>
 				</div>

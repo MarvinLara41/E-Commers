@@ -7,7 +7,7 @@ function RegisterScreen(props) {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [rePassword, setrePassword] = useState('');
+	// const [rePassword, setrePassword] = useState('');
 	const userRegister = useSelector((state) => state.userRegister);
 	const { loading, userInfo, error } = userRegister;
 	const dispatch = useDispatch();
@@ -69,7 +69,7 @@ function RegisterScreen(props) {
 							placeholder="Password"
 						></input>
 					</li>
-					<li>
+					{/* <li>
 						<label htmlFor="rePassword">Re-Enter Password </label>
 						<input
 							type="rePassword"
@@ -78,7 +78,7 @@ function RegisterScreen(props) {
 							onChange={(e) => setrePassword(e.target.value)}
 							placeholder="Re-Enter Password"
 						></input>
-					</li>
+					</li> */}
 					<li>
 						<button type="submit" className="button primary ">
 							Register

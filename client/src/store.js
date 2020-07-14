@@ -18,9 +18,9 @@ import {
 } from './reducers/userReducers';
 
 import {
-	OrderCreateReducer,
-	OrderDetailsReducer,
-	OrderPayReducer,
+	orderCreateReducer,
+	orderDetailsReducer,
+	orderPayReducer,
 	myOrderListReducer,
 	orderListReducer,
 	orderDeleteReducer,
@@ -31,9 +31,7 @@ const cartItems = Cookie.getJSON('cartItems') || [];
 const userInfo = Cookie.getJSON('userInfo') || null;
 
 const initialState = {
-	cart: { cartItems },
-	shipping: {},
-	payment: {},
+	cart: { cartItems, shipping: {}, payment: {} },
 	userSignin: { userInfo },
 };
 
@@ -45,9 +43,9 @@ const reducer = combineReducers({
 	userRegister: userRegisterReducer,
 	productSave: productSaveReducer,
 	productDelete: productDeleteReducer,
-	orderCreate: OrderCreateReducer,
-	orderDetails: OrderDetailsReducer,
-	orderPay: OrderPayReducer,
+	orderCreate: orderCreateReducer,
+	orderDetails: orderDetailsReducer,
+	orderPay: orderPayReducer,
 	userUpdate: userUpdateReducer,
 	myOrderList: myOrderListReducer,
 	orderList: orderListReducer,

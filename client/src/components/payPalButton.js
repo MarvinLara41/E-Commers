@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+
 function PaypalButton(props) {
 	const [sdkReady, setSdkReady] = useState(false);
 
@@ -9,7 +10,7 @@ function PaypalButton(props) {
 		const clientID = result.data;
 		const script = document.createElement('script');
 		script.type = 'text/javascript';
-		script.src = 'https://www.paypal.com/sdk/js?client-id=' + clientID;
+		script.src = 'https://www.paypal.com/sdk/js?client-id' + clientID;
 		script.async = true;
 		script.onload = () => {
 			setSdkReady(true);

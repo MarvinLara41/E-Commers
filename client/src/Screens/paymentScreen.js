@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { savePayment } from '../actions/cartActions';
 import CheckOutSteps from '../components/CheckOutSteps';
 
@@ -12,9 +11,9 @@ function PaymentScreen(props) {
 	const submitHandler = (e) => {
 		e.preventDefault();
 
-		dispatch(savePayment(paymentMethod));
+		dispatch(savePayment({ paymentMethod }));
 
-		props.history.push('placeorder');
+		props.history.push('/placeorder');
 	};
 
 	return (
@@ -33,7 +32,7 @@ function PaymentScreen(props) {
 								id="paymentMethod"
 								onChange={(e) => setPaymentMethod(e.target.value)}
 								placeholder="Address"
-								value="pay-pal"
+								value="paypal"
 							></input>
 							<label htmlFor="paymentMethod">Pay-Pal</label>
 						</li>
