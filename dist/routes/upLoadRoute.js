@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.default = void 0;
 
 var _express = _interopRequireDefault(require("express"));
 
@@ -11,25 +11,27 @@ var _multer = _interopRequireDefault(require("multer"));
 
 var _config = _interopRequireDefault(require("../config"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var storage = _multer["default"].diskStorage({
-  destination: function destination(req, file, cb) {
+const storage = _multer.default.diskStorage({
+  destination(req, file, cb) {
     cb(null, 'uploads/');
   },
-  filename: function filename(req, file, cb) {
-    cb(null, "".concat(Date.now(), ".jpg"));
+
+  filename(req, file, cb) {
+    cb(null, `${Date.now()}.jpg`);
   }
+
 });
 
-var upload = (0, _multer["default"])({
-  storage: storage
+const upload = (0, _multer.default)({
+  storage
 });
 
-var router = _express["default"].Router();
+const router = _express.default.Router();
 
-router.post('/', upload.single('image'), function (req, res) {
-  res.send("/".concat(req.file.path));
+router.post('/', upload.single('image'), (req, res) => {
+  res.send(`/${req.file.path}`);
 });
 var _default = router;
-exports["default"] = _default;
+exports.default = _default;
