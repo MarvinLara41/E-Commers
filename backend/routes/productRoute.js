@@ -30,11 +30,11 @@ router.get('/:id', async (req, res) => {
 	if (products) {
 		res.send(products);
 	} else {
-		res.status(494).send({ message: 'Product not found.' });
+		res.status(404).send({ message: 'Product not found.' });
 	}
 });
 
-router.post('/', async (req, res) => {
+router.post('/', isAuth, isAdmin, async (req, res) => {
 	const product = new Product({
 		name: req.body.name,
 		price: req.body.price,
