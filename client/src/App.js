@@ -3,17 +3,18 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './App.css';
 
-import CartScreen from './screens/CartScreen';
-import HomeScreen from './screens/homeScreen';
-import OrderScreen from './screens/orderScreen';
-import ProductScreen from './screens/productScreen';
-import ShippingScreen from './screens/ShippingScreen';
-import SignInScreen from './screens/signInScreen';
-import PaymentScreen from './screens/paymentScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import PlaceOrderScreen from './screens/placeOrderScreen';
-import ProfileScreen from './screens/profileScreen';
-import ProductsScreen from './screens/ProductsScreen';
+import CartScreen from './Screens/CartScreen';
+import HomeScreen from './Screens/homeScreen';
+import OrderScreen from './Screens/orderScreen';
+import OrdersScreen from './Screens/ordersScreen';
+import ProductScreen from './Screens/productScreen';
+import ShippingScreen from './Screens/ShippingScreen';
+import SignInScreen from './Screens/signInScreen';
+import PaymentScreen from './Screens/paymentScreen';
+import RegisterScreen from './Screens/RegisterScreen';
+import PlaceOrderScreen from './Screens/placeOrderScreen';
+import ProfileScreen from './Screens/profileScreen';
+import ProductsScreen from './Screens/ProductsScreen';
 
 function App(props) {
 	const userSignin = useSelector((state) => state.userSignin);
