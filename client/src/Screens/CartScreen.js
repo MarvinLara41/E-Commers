@@ -16,9 +16,9 @@ function CartScreen(props) {
 	};
 	useEffect(() => {
 		if (productId) {
-			dispatch(addToCart(productId, qty));
+			dispatch(props.addToCart(productId, qty));
 		}
-	}, []);
+	}, [props.addToCart(productId, qty)]);
 
 	const checkoutHandler = () => {
 		props.history.push('/signin?redirect=shipping');

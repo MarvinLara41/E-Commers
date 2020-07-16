@@ -17,7 +17,7 @@ function OrderScreen(props) {
 		if (successPay) {
 			props.history.push('/profile');
 		} else {
-			dispatch(detailsOrder(props.match.params.id));
+			dispatch(props.detailsOrder(props.match.params.id));
 		}
 		return () => {};
 	}, [successPay]);
