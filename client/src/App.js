@@ -83,7 +83,7 @@ function App(props) {
 						<Route path="/product/:id" component={ProductScreen} />
 						<Route path="/cart/:id?" component={CartScreen} />
 						<Route path="/category/:id" component={HomeScreen} />
-						<Route path="/" exact={true} component={HomeScreen} />
+						<Route path="/" component={HomeScreen} />
 					</div>
 				</main>
 				<footer className="footer">All rights reserved.</footer>
