@@ -17,6 +17,7 @@ mongoose
 	.connect(mongodbURI, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		useCreateIndex: true,
 	})
 	.catch((error) => console.log(error.reason));
 

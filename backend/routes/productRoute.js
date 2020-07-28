@@ -1,5 +1,5 @@
 import express from 'express';
-import Product from '../models/productModel';
+import productModel from '../models/productModel';
 import { getToken, isAdmin, isAuth } from '../util';
 const router = express.Router();
 
@@ -18,14 +18,14 @@ router.get('/', async (req, res) => {
 			? { price: 1 }
 			: { price: -1 }
 		: { _id: -1 };
-	const products = await Product.find({ ...category, ...searchKeyword }).sort(
-		sortOrder
-	);
+	const products = await productModel
+		.find({ ...category, ...searchKeyword })
+		.sort(sortOrder);
 	res.send(products);
 });
 
 router.get('/:id', async (req, res) => {
-	const products = await Product.findOne({ _id: req.params.id });
+	const products = await productModel.findOne({ _id: req.params.id });
 
 	if (products) {
 		res.send(products);
@@ -35,7 +35,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', isAuth, isAdmin, async (req, res) => {
-	const product = new Product({
+	const product = new productModel({
 		name: req.body.name,
 		price: req.body.price,
 		image: req.body.image,
@@ -57,7 +57,7 @@ router.post('/', isAuth, isAdmin, async (req, res) => {
 
 router.put('/:id', isAuth, isAdmin, async (req, res) => {
 	const productId = req.params.id;
-	const product = await Product.findById(productId);
+	const product = await productModel.findById(productId);
 	if (product) {
 		product.name = req.body.name;
 		product.price = req.body.price;
@@ -77,7 +77,7 @@ router.put('/:id', isAuth, isAdmin, async (req, res) => {
 });
 
 router.delete('/:id', isAuth, isAdmin, async (req, res) => {
-	const deletedProduct = await Product.findById(req.params.id);
+	const deletedProduct = await productModel.findById(req.params.id);
 	if (deletedProduct) {
 		await deletedProduct.remove();
 		res.send({ message: 'Product Deleted' });

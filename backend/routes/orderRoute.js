@@ -10,6 +10,7 @@ router.get('/', isAuth, async (req, res) => {
 	const orders = await Order.find({}).populate('user');
 	res.send(orders);
 });
+
 router.get('/mine', isAuth, async (req, res) => {
 	const orders = await Order.find({ user: req.user._id });
 	res.send(orders);
@@ -63,7 +64,6 @@ router.put('/:id/pay', isAuth, async (req, res) => {
 			},
 		};
 
-		console.log(order);
 		const updatedOrder = await order.save();
 		res.send({ message: 'Order Paid.', order: updatedOrder });
 	} else {

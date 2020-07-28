@@ -9,6 +9,7 @@ import axios from 'axios';
 
 function ProductsScreen(props) {
 	const [modalVisable, setModalVisable] = useState(false);
+
 	const [id, setId] = useState('');
 	const [name, setName] = useState('');
 	const [price, setPrice] = useState('');
@@ -17,8 +18,11 @@ function ProductsScreen(props) {
 	const [category, setCategory] = useState('');
 	const [countInStock, setCountInStock] = useState('');
 	const [description, setDescription] = useState('');
+
 	const productSave = useSelector((state) => state.productSave);
+
 	const productDelete = useSelector((state) => state.productDelete);
+
 	const [uploading, setUploading] = useState(false);
 	const {
 		loading: loadingSave,

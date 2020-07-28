@@ -11,13 +11,14 @@ function OrderScreen(props) {
 		success: successPay,
 		// error: errorPay,
 	} = orderPay;
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (successPay) {
 			props.history.push('/profile');
 		} else {
-			dispatch(props.detailsOrder(props.match.params.id));
+			dispatch(detailsOrder(props.match.params.id));
 		}
 		return () => {};
 	}, [successPay]);

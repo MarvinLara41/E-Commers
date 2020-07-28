@@ -36,7 +36,7 @@ function App(props) {
 						<Link to="/"> E-Commers </Link>
 					</div>
 					<div className="header-links">
-						<Link to="/cart">Cart</Link>
+						<Link to="/cart">Cart</Link>{' '}
 						{userInfo ? (
 							<Link to="/profile"> {userInfo.name} </Link>
 						) : (

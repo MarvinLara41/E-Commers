@@ -33,7 +33,7 @@ function HomeScreen(props) {
 	};
 
 	return (
-		<>
+		<div>
 			{category && <h2>{category}</h2>}
 
 			<ul className="filter">
@@ -87,7 +87,7 @@ function HomeScreen(props) {
 					))}
 				</ul>
 			)}
-		</>
+		</div>
 	);
 }
 

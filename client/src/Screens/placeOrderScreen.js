@@ -21,7 +21,8 @@ function PlaceOrderScreen(props) {
 
 	const dispatch = useDispatch();
 
-	const placeOrderHandler = () => {
+	const placeOrderHandler = (e) => {
+		e.preventDefault();
 		// create an order
 		dispatch(
 			createOrder({
@@ -34,8 +35,8 @@ function PlaceOrderScreen(props) {
 				totalPrice,
 			})
 		);
-		console.log(createOrder);
 	};
+
 	useEffect(() => {
 		if (success) {
 			props.history.push('/order/' + order._id);

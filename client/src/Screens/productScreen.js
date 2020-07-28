@@ -10,9 +10,9 @@ function ProductScreen(props) {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(props.detailsProduct(props.match.params.id));
+		dispatch(detailsProduct(props.match.params.id));
 		return () => {};
-	}, [props.detailsProduct(props.match.params.id)]);
+	}, []);
 
 	const handleAddToCart = () => {
 		props.history.push('/cart/' + props.match.params.id + '?qty=' + qty);

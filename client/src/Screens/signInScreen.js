@@ -9,9 +9,16 @@ function SignInScreen(props) {
 	const userSignin = useSelector((state) => state.userSignin);
 	const { loading, userInfo, error } = userSignin;
 	const dispatch = useDispatch();
+
 	const redirect = props.location.search
 		? props.location.search.split('=')[1]
 		: '/';
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+
+		dispatch(signin(email, password));
+	};
 
 	useEffect(() => {
 		if (userInfo) {
@@ -19,12 +26,6 @@ function SignInScreen(props) {
 		}
 		return () => {};
 	}, [userInfo]);
-
-	const submitHandler = (e) => {
-		e.preventDefault();
-
-		dispatch(signin(email, password));
-	};
 
 	return (
 		<div className="form">
