@@ -1,8 +1,8 @@
-import express from 'express';
+const express = require('express');
 
-import Order from '../models/orderModel';
+const Order = require('../models/orderModel');
 
-import { isAuth, isAdmin } from '../util';
+const { isAuth, isAdmin } = require('../util');
 
 const router = express.Router();
 
@@ -70,4 +70,5 @@ router.put('/:id/pay', isAuth, async (req, res) => {
 		res.status(404).send({ message: 'Order not found.' });
 	}
 });
-export default router;
+
+module.exports = router;

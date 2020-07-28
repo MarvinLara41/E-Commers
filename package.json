@@ -2,11 +2,16 @@
 	"name": "e-commers",
 	"version": "1.0.0",
 	"description": "A fully functional E-Commers site that allows users to view, remove, and purchase items from the site.",
-	"main": "index.js",
+	"main": "server.js",
 	"scripts": {
-		"start": "nodemon --watch backend --exec babel-node backend/server.js",
-		"build": "rm -rf dist && babel backend -d dist",
-		"heroku-postbuild": "npm run build && cd client && npm install && npm run build"
+		"start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+		"start:prod": "node server.js",
+		"start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+		"client": "cd client && npm run start",
+		"seed": "node scripts/seedDB.js",
+		"install": "cd client && npm install",
+		"build": "cd client && npm run build",
+		"heroku-postbuild": "npm run build"
 	},
 	"repository": {
 		"type": "git",
@@ -20,8 +25,8 @@
 	},
 	"homepage": "https://github.com/MarvinLara41/E-Commers#readme",
 	"engines": {
-		"node": "12.4.0",
-		"npm": "6.9.0"
+		"node": "12.16.2",
+		"npm": "6.14.4"
 	},
 	"dependencies": {
 		"body-parser": "^1.19.0",

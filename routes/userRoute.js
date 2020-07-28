@@ -1,6 +1,6 @@
-import express from 'express';
-import User from '../models/userModel';
-import { getToken, isAuth } from '../util';
+const express = require('express');
+const User = require('../models/userModel');
+const { getToken, isAuth } = require('../util');
 const router = express.Router();
 
 router.post('/signin', async (req, res) => {
@@ -82,4 +82,4 @@ router.put('/:id', isAuth, async (req, res) => {
 	}
 });
 
-export default router;
+module.exports = router;

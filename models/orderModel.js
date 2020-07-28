@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const shippingSchema = {
 	address: { type: String, required: true },
@@ -44,4 +44,5 @@ const orderSchema = new mongoose.Schema(
 );
 
 const orderModel = mongoose.model('Order', orderSchema);
-export default orderModel;
+
+module.exports = orderModel;

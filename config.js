@@ -1,8 +1,7 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config();
 
-export default {
-	MONGODB_URL: process.env.MONGODB_URL,
+module.exports = {
 	JWT_SECRET: process.env.JWT_SECRET || 'somethingsecret',
 	PAYPAL_CLIENT_ID: process.env.PAYPAL_CLIENT_ID,
 	MONGODB_URI: process.env.MONGODB_URI,

@@ -1,6 +1,6 @@
-import express from 'express';
-import multer from 'multer';
-import config from '../config';
+const express = require('express');
+const multer = require('multer');
+const config = require('../config');
 
 const storage = multer.diskStorage({
 	destination(req, file, cb) {
@@ -19,4 +19,4 @@ router.post('/', upload.single('image'), (req, res) => {
 	res.send(`/${req.file.path}`);
 });
 
-export default router;
+module.exports = router;
