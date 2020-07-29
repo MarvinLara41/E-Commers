@@ -22,6 +22,17 @@ if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/public'));
 }
 
+const mongodbURI = config.MONGODB_URI;
+
+mongoose
+	.connect(mongodbURI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+	})
+	.catch((error) => console.log(error.reason));
+
+// API
 app.use('/api/uploads', uploadRoute);
 
 app.use('/api/users', userRoute);
@@ -35,16 +46,6 @@ app.get('/api/config/paypal', (req, res) => {
 });
 
 app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
-
-const mongodbURI = config.MONGODB_URI;
-
-mongoose
-	.connect(mongodbURI, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		useCreateIndex: true,
-	})
-	.catch((error) => console.log(error.reason));
 
 app.listen(PORT, function () {
 	console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
