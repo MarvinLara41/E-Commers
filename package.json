@@ -1,9 +1,12 @@
 {
 	"name": "e-commers",
 	"version": "1.0.0",
-	"proxy": "http://127.0.0.1:5000",
 	"description": "A fully functional E-Commers site that allows users to view, remove, and purchase items from the site.",
 	"main": "server.js",
+	"engines": {
+		"node": "12.16.2",
+		"npm": "6.14.4"
+	},
 	"scripts": {
 		"start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
 		"start:prod": "node server.js",
@@ -25,10 +28,6 @@
 		"url": "https://github.com/MarvinLara41/E-Commers/issues"
 	},
 	"homepage": "https://github.com/MarvinLara41/E-Commers#readme",
-	"engines": {
-		"node": "12.16.2",
-		"npm": "6.14.4"
-	},
 	"dependencies": {
 		"body-parser": "^1.19.0",
 		"concurrently": "^5.2.0",
