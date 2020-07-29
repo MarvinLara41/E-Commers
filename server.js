@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const config = require('./config');
-require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 const mongoose = require('mongoose');
 const userRoute = require('./routes/userRoute');
@@ -12,20 +11,16 @@ const uploadRoute = require('./routes/uploadRoute');
 
 const app = express();
 
-const mongodbURI = config.MONGODB_URI;
-
-mongoose
-	.connect(mongodbURI, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		useCreateIndex: true,
-	})
-	.catch((error) => console.log(error.reason));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.json());
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'));
+} else {
+	app.use(express.static('client/public'));
+}
 
 app.use('/api/uploads', uploadRoute);
 
@@ -41,16 +36,18 @@ app.get('/api/config/paypal', (req, res) => {
 
 app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('client/build'));
-} else {
-	app.use(express.static('client/public'));
-}
+const mongodbURI = config.MONGODB_URI;
 
-app.get('*', (req, res) => {
-	res.sendFile(path.join(`${__dirname}/../client/build/index.html`));
-});
+mongoose
+	.connect(mongodbURI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+	})
+	.catch((error) => console.log(error.reason));
 
 app.listen(PORT, function () {
 	console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
+
+module.exports = app;
