@@ -46,7 +46,7 @@ app.get('/api/config/paypal', (req, res) => {
 	res.send(config.PAYPAL_CLIENT_ID);
 });
 
-app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 app.listen(PORT, function () {
 	console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
