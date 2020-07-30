@@ -28,6 +28,7 @@
 		"url": "https://github.com/MarvinLara41/E-Commers/issues"
 	},
 	"homepage": "https://github.com/MarvinLara41/E-Commers#readme",
+	"proxy": "http://127.0.0.1:5000",
 	"dependencies": {
 		"body-parser": "^1.19.0",
 		"concurrently": "^5.2.0",
