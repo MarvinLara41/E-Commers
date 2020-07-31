@@ -8,7 +8,7 @@ const userRoute = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
 const orderRoute = require('./routes/orderRoute');
 const bodyParser = require('body-parser');
-const uploadRoute = require('./routes/uploadRoute');
+const uploadRoute = require('./routes/upLoadRoute');
 
 const app = express();
 
