@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const config = require('./config');
 const PORT = process.env.PORT || 5000;
+const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const userRoute = require('./routes/userRoute');
@@ -12,6 +13,7 @@ const uploadRoute = require('./routes/upLoadRoute');
 
 const app = express();
 
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());

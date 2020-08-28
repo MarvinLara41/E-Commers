@@ -31,7 +31,6 @@ function PaymentScreen(props) {
 								name="paymentMethod"
 								id="paymentMethod"
 								onChange={(e) => setPaymentMethod(e.target.value)}
-								placeholder="Address"
 								value="paypal"
 							></input>
 							<label htmlFor="paymentMethod">Pay-Pal</label>
