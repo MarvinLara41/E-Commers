@@ -1,96 +1,109 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { saveShipping } from '../actions/cartActions';
-import CheckOutSteps from '../components/CheckOutSteps';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { saveShipping } from "../actions/cartActions";
 
-function ShippingScreen(props) {
-	const [address, setAddress] = useState('');
-	const [state, setState] = useState('');
-	const [city, setCity] = useState('');
-	const [postalCode, setPostalCode] = useState('');
-	const [country, setCountry] = useState('');
+import CheckOutSteps from "../components/CheckOutSteps";
 
-	const dispatch = useDispatch();
+export default function ShippingAddressScreen(props) {
+  const userSignin = useSelector((state) => state.userSignin);
 
-	const submitHandler = (e) => {
-		e.preventDefault();
+  /** if user isnt signed in they will be pushed to the sign screen */
+  const { userInfo } = userSignin;
 
-		dispatch(saveShipping({ address, city, postalCode, state, country }));
+  if (!userInfo) {
+    props.history.push("/signin");
+  }
+  /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-		props.history.push('payment');
-	};
+  /** if user has to re-signin they're shipping in will be saved */
+  const cart = useSelector((state) => state.cart);
+  const { shippingAddress } = cart;
 
-	return (
-		<div>
-			<CheckOutSteps step1 step2></CheckOutSteps>
-			<div className="form">
-				<form onSubmit={submitHandler}>
-					<ul className="form-container">
-						<li>
-							<h3> Shipping </h3>
-						</li>
-						<li>
-							<label htmlFor="address">Address</label>
-							<input
-								type="address"
-								name="address"
-								id="address"
-								value={address}
-								onChange={(e) => setAddress(e.target.value)}
-								placeholder="Address"
-							></input>
-						</li>
-						<li>
-							<label htmlFor="city">City</label>
-							<input
-								type="city"
-								name="city"
-								id="city"
-								onChange={(e) => setCity(e.target.value)}
-								placeholder="City"
-							></input>
-						</li>
-						<li>
-							<label htmlFor="postalCode">postalCode</label>
-							<input
-								type="postalCode"
-								name="postalCode"
-								id="postalCode"
-								onChange={(e) => setPostalCode(e.target.value)}
-								placeholder="Postal-Code"
-							></input>
-						</li>
-						<li>
-							<label htmlFor="state">State</label>
-							<input
-								type="state"
-								name="state"
-								id="state"
-								onChange={(e) => setState(e.target.value)}
-								placeholder="State"
-							></input>
-						</li>
+  const [fullName, setFullName] = useState(shippingAddress.fullName);
+  const [address, setAddress] = useState(shippingAddress.address);
+  const [city, setCity] = useState(shippingAddress.city);
+  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
+  const [country, setCountry] = useState(shippingAddress.country);
 
-						<li>
-							<label htmlFor="country">Country</label>
-							<input
-								type="country"
-								name="country"
-								id="country"
-								onChange={(e) => setCountry(e.target.value)}
-								placeholder="Country"
-							></input>
-						</li>
-						<li>
-							<button type="submit" className="button primary ">
-								Continue
-							</button>
-						</li>
-					</ul>
-				</form>
-			</div>
-		</div>
-	);
+  const dispatch = useDispatch();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    /**Dispatch action for shipping address */
+
+    dispatch(saveShipping({ fullName, address, city, postalCode, country }));
+
+    props.history.push("/payment");
+  };
+
+  return (
+    <div>
+      <CheckOutSteps step1 step2></CheckOutSteps>
+      <form className="form" onSubmit={submitHandler}>
+        <div>
+          <h1>Shipping Adress</h1>
+        </div>
+        <div>
+          <label htmlFor="fullName"></label>
+          <input
+            type="text"
+            id="fullName"
+            placeholder="Enter Full name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="address"></label>
+          <input
+            type="text"
+            id="address"
+            placeholder="Enter Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="city"></label>
+          <input
+            type="text"
+            id="city"
+            placeholder="Enter City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="postalCode"></label>
+          <input
+            type="text"
+            id="postalCode"
+            placeholder="Enter Zip Code"
+            value={postalCode}
+            onChange={(e) => setPostalCode(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="country"></label>
+          <input
+            type="text"
+            id="Country"
+            placeholder="Enter Country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            required
+          />
+        </div>
+        <label />
+        <button className="primary" type="submit">
+          Continue
+        </button>
+      </form>
+    </div>
+  );
 }
-
-export default ShippingScreen;

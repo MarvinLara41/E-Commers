@@ -1,83 +1,85 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { signin } from '../actions/userActions';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-function SignInScreen(props) {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const userSignin = useSelector((state) => state.userSignin);
-	const { loading, userInfo, error } = userSignin;
-	const dispatch = useDispatch();
+import { signin } from "../actions/userActions.js";
+import LoadingBox from "../components/LoadingBox.js";
+import MessageBox from "../components/MessageBox.js";
 
-	const redirect = props.location.search
-		? props.location.search.split('=')[1]
-		: '/';
+export default function SigninScreen(props) {
+  const [email, setEmail] = useState("");
 
-	const submitHandler = (e) => {
-		e.preventDefault();
+  const [password, setPassword] = useState("");
 
-		dispatch(signin(email, password));
-	};
+  /**directs user on where to go based on if user is signed in or not */
+  const redirect = props.location.search
+    ? props.location.search.split("=")[1]
+    : "/";
 
-	useEffect(() => {
-		if (userInfo) {
-			props.history.push(redirect);
-		}
-		return () => {};
-	}, [userInfo]);
+  const userSignin = useSelector((state) => state.userSignin);
 
-	return (
-		<div className="form">
-			<form onSubmit={submitHandler}>
-				<ul className="form-container">
-					<li>
-						<h3> Sign-In </h3>
-					</li>
-					<li>
-						{loading && <div> Loading... </div>}
-						{error && <div> {error} </div>}
-					</li>
-					<li htmlFor="email">
-						<label>Email</label>
-						<input
-							type="email"
-							name="email"
-							id="email"
-							onChange={(e) => setEmail(e.target.value)}
-							placeholder="Email"
-						></input>
-					</li>
-					<li>
-						<label htmlFor="password">Password </label>
-						<input
-							type="password"
-							id="password"
-							name="password"
-							onChange={(e) => setPassword(e.target.value)}
-							placeholder="Password"
-						></input>
-					</li>
-					<li>
-						<button type="submit" className="button primary ">
-							Sign In
-						</button>
-					</li>
-					<li>New to E-Commers?</li>
-					<li>
-						<Link
-							to={
-								redirect === '/' ? 'register' : 'register?redirect=' + redirect
-							}
-							className="button text-center"
-						>
-							Register your account
-						</Link>
-					</li>
-				</ul>
-			</form>
-		</div>
-	);
+  const { userInfo, loading, error } = userSignin;
+
+  const dispatch = useDispatch();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    /**Sign In action */
+    /**after signin action userInfo will be filled in localstorage */
+
+    dispatch(signin(email, password));
+  };
+
+  useEffect(() => {
+    /**user will be directed to home page or redirect history */
+    if (userInfo) {
+      props.history.push(redirect);
+    }
+  }, [props.history, redirect, userInfo]);
+
+  return (
+    <div>
+      <form className="form" onSubmit={submitHandler}>
+        <div>
+          <h1>Signin</h1>
+        </div>
+        {loading && <LoadingBox></LoadingBox>}
+        {error && <MessageBox variant="danger">{error}</MessageBox>}
+        <div>
+          <label htmlFor="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Email"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="password"
+            required
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label />
+          <button className="primary" type="submit">
+            Sign In
+          </button>
+        </div>
+        <div>
+          <label />
+          <div>
+            New customer ?{" "}
+            <Link to={`/register?redirect=${redirect}`}>Create Account</Link>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
 }
-
-export default SignInScreen;
