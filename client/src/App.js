@@ -15,6 +15,7 @@ import RegisterScreen from "./Screens/RegisterScreen";
 import PlaceOrderScreen from "./Screens/placeOrderScreen";
 import ProfileScreen from "./Screens/profileScreen";
 import ListProductScreen from "./Screens/ListProductScreen";
+import ProductEditScreen from "./Screens/ProductEditScreen";
 
 /** ACTIONS */
 import { logout } from "./actions/userActions";
@@ -108,6 +109,11 @@ function App() {
             <Route path="/cart/:id?" component={CartScreen} />
             <Route path="/category/:id" component={HomeScreen} />
             <Route path="/" component={HomeScreen} exact />
+            <Route
+              path="/product/:id/edit"
+              component={ProductEditScreen}
+              exact
+            ></Route>
           </Switch>
         </main>
         <footer className="footer">All rights reserved.</footer>

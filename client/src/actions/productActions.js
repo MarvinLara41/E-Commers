@@ -11,6 +11,9 @@ import {
   PRODUCT_DELETE_REQUEST,
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_FAIL,
+  PRODUCT_UPDATE_SUCCESS,
+  PRODUCT_UPDATE_FAIL,
+  PRODUCT_UPDATE_REQUEST,
 } from "../constants/productConstants";
 import axios from "axios";
 
@@ -33,22 +36,19 @@ const listProducts =
     }
   };
 
-const saveProduct = () => async (dispatch, getState) => {
-  dispatch({ type: PRODUCT_SAVE_REQUEST });
+const saveProduct = (product) => async (dispatch, getState) => {
+  /** saving product. the request carries the payload: product which is the information submitted in the Create Product form. in the const {data} I am adding this request to be posted in relation to the admin that submitted the request.  */
+  dispatch({ type: PRODUCT_SAVE_REQUEST, payload: product });
   const {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await axios.post(
-      "/api/products",
-      {},
-      {
-        headers: { Authorization: `Bearer ${userInfo.token}` },
-      }
-    );
+    const { data } = await axios.post("/api/products", product, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
     dispatch({
       type: PRODUCT_SAVE_SUCCESS,
-      payload: data.product,
+      payload: data,
     });
   } catch (error) {
     const message =
@@ -88,4 +88,34 @@ const deleteProduct = (productId) => async (dispatch, getState) => {
   }
 };
 
-export { listProducts, detailsProduct, saveProduct, deleteProduct };
+const updateProduct = (product) => async (dispatch, getState) => {
+  dispatch({
+    type: PRODUCT_UPDATE_REQUEST,
+    payload: product,
+  });
+
+  const {
+    userSignin: { userInfo },
+  } = getState();
+
+  try {
+    const { data } = await axios.put(`/api/products/${product._id}`, product, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: PRODUCT_UPDATE_FAIL, error: message });
+  }
+};
+
+export {
+  listProducts,
+  detailsProduct,
+  saveProduct,
+  deleteProduct,
+  updateProduct,
+};

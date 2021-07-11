@@ -100,6 +100,7 @@ const productDeleteReducer = (state = {}, action) => {
       return state;
   }
 };
+
 export {
   productListReducer,
   productDetailsReducer,

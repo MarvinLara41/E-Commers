@@ -9,7 +9,6 @@ import {
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import {
-  PRODUCT_CREATE_RESET,
   PRODUCT_DELETE_RESET,
   PRODUCT_SAVE_RESET,
 } from "../constants/productConstants";
@@ -83,11 +82,12 @@ export default function ProductListScreen(props) {
     if (successCreate) {
       dispatch({ type: PRODUCT_SAVE_RESET });
       setModalVisable(false);
-      props.history.push(`/product/${createdProduct._id}/edit`);
+      props.history.push(`/products`);
     }
 
     if (successDelete) {
       dispatch({ type: PRODUCT_DELETE_RESET });
+      props.history.push("/products");
     }
 
     dispatch(listProducts());
@@ -182,6 +182,7 @@ export default function ProductListScreen(props) {
                   type="number"
                   name="countInStock"
                   id="countInStock"
+                  value={countInStock}
                   onChange={(e) => setCountInStock(e.target.value)}
                   placeholder="Count in Stock"
                 ></input>
