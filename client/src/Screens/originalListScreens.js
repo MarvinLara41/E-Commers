@@ -1,37 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
-  deleteProduct,
-  listProducts,
   saveProduct,
+  listProducts,
+  deleteProduct,
 } from "../actions/productActions";
-import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessageBox";
-import {
-  PRODUCT_CREATE_RESET,
-  PRODUCT_DELETE_RESET,
-  PRODUCT_SAVE_RESET,
-} from "../constants/productConstants";
+import axios from "axios";
 
-export default function ProductListScreen(props) {
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
-
-  const productCreate = useSelector((state) => state.productSave);
-  const {
-    loading: loadingCreate,
-    error: errorCreate,
-    success: successCreate,
-    product: createdProduct,
-  } = productCreate;
-
-  const productDelete = useSelector((state) => state.productDelete);
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = productDelete;
+export default function ListProductScreen(props) {
+  const [modalVisable, setModalVisable] = useState(false);
 
   const [id, setId] = useState("");
   const [name, setName] = useState("");
@@ -41,8 +18,34 @@ export default function ProductListScreen(props) {
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState("");
   const [description, setDescription] = useState("");
+
+  const productSave = useSelector((state) => state.productSave);
+
+  const productDelete = useSelector((state) => state.productDelete);
+
   const [uploading, setUploading] = useState(false);
-  const [modalVisable, setModalVisable] = useState(false);
+  const {
+    loading: loadingSave,
+    success: successSave,
+    error: errorSave,
+  } = productSave;
+  const {
+    loading: loadingDelete,
+    success: successDelete,
+    error: errorDelete,
+  } = productDelete;
+  const dispatch = useDispatch();
+
+  const productList = useSelector((state) => state.productList);
+  const { loading, products, error } = productList;
+
+  useEffect(() => {
+    if (successSave) {
+      setModalVisable(false);
+    }
+    dispatch(listProducts());
+    return () => {};
+  }, [dispatch, successSave, successDelete]);
 
   const openModal = (product) => {
     setModalVisable(true);
@@ -54,6 +57,27 @@ export default function ProductListScreen(props) {
     setCategory(product.category);
     setCountInStock(product.countInStock);
     setDescription(product.description);
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    dispatch(
+      saveProduct({
+        _id: id,
+        name,
+        price,
+        brand,
+        image,
+        category,
+        countInStock,
+        description,
+      })
+    );
+  };
+
+  const deleteHandler = (product) => {
+    dispatch(deleteProduct(product._id));
   };
 
   const uploadFileHandler = (e) => {
@@ -77,59 +101,23 @@ export default function ProductListScreen(props) {
       });
   };
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (successCreate) {
-      dispatch({ type: PRODUCT_SAVE_RESET });
-      setModalVisable(false);
-      props.history.push(`/product/${createdProduct._id}/edit`);
-    }
-
-    if (successDelete) {
-      dispatch({ type: PRODUCT_DELETE_RESET });
-    }
-
-    dispatch(listProducts());
-  }, [createdProduct, dispatch, props.history, successCreate, successDelete]);
-
-  /******************* Handlers   ***********************************/
-  const deleteHandler = (product) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      dispatch(deleteProduct(product._id));
-    }
-  };
-
-  const createHandler = () => {
-    dispatch(
-      saveProduct({
-        _id: id,
-        name,
-        price,
-        brand,
-        image,
-        category,
-        countInStock,
-        description,
-      })
-    );
-  };
-
   return (
-    <div>
-      <div className="row">
+    <div className="content content-margined">
+      <div className="product-header">
+        <h3> Products </h3>
         <button onClick={() => openModal({})}> Create Product</button>
       </div>
+
       {modalVisable && (
         <div className="form">
-          <form onSubmit={createHandler}>
+          <form onSubmit={submitHandler}>
             <ul className="form-container">
               <li>
                 <h3> Create a Product</h3>
               </li>
               <li>
-                {loadingCreate && <div> Loading... </div>}
-                {errorCreate && <div> {errorCreate} </div>}
+                {loadingSave && <div> Loading... </div>}
+                {errorSave && <div> {errorSave} </div>}
               </li>
               <li htmlFor="name">
                 <label>Name</label>
@@ -226,63 +214,38 @@ export default function ProductListScreen(props) {
           </form>
         </div>
       )}
-      {loadingDelete && <LoadingBox></LoadingBox>}
-      {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
 
-      {loadingCreate && <LoadingBox></LoadingBox>}
-      {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
-      <div>
-        <h1>Currently listed product</h1>
-        {loading ? (
-          <LoadingBox></LoadingBox>
-        ) : error ? (
-          <MessageBox variant="danger">{error}</MessageBox>
-        ) : (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Brand</th>
-                <th>Quanity</th>
-                <th>Actions</th>
+      <div className="product-list">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ID </th>
+              <th>Name </th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Brand</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product._id}>
+                <td>{product._id}</td>
+                <td>{product.name}</td>
+                <td>{product.price}</td>
+                <td>{product.category}</td>
+                <td>{product.brand}</td>
+                <td>
+                  <button onClick={() => openModal(product)}> Edit </button>{" "}
+                  <button onClick={() => deleteHandler(product)}>
+                    {" "}
+                    Delete{" "}
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>{product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
-                  <td>{product.countInStock}</td>
-                  <td>
-                    <button
-                      type="button"
-                      className="small"
-                      onClick={() =>
-                        props.history.push(`/product/${product._id}/edit`)
-                      }
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      className="small"
-                      onClick={() => deleteHandler(product)}
-                    >
-                      {" "}
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

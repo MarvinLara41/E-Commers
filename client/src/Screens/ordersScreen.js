@@ -1,85 +1,98 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { listOrders, deleteOrder } from "../actions/orderActions";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteOrder, listOrders } from "../actions/orderActions";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+import { ORDER_DELETE_RESET } from "../constants/orderConstants";
 
-function OrdersScreen(props) {
+export default function OrderListScreen(props) {
   const orderList = useSelector((state) => state.orderList);
-  const { loading, orders } = orderList;
+
+  const { loading, error, orders } = orderList;
 
   const orderDelete = useSelector((state) => state.orderDelete);
+
   const {
-    // loading: loadingDelete,
+    loading: loadingDelete,
+    error: errorDelete,
     success: successDelete,
-    // error: errorDelete,
   } = orderDelete;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch({ type: ORDER_DELETE_RESET });
     dispatch(listOrders());
-    return () => {
-      //
-    };
   }, [dispatch, successDelete]);
 
   const deleteHandler = (order) => {
-    dispatch(deleteOrder(order._id));
+    if (window.confirm("Are you sure you want to delete this order?")) {
+      dispatch(deleteOrder(order._id));
+    }
   };
-  return loading ? (
-    <div>Loading...</div>
-  ) : (
-    <div className="content content-margined">
-      <div className="order-header">
-        <h3>Orders</h3>
-      </div>
-      <div className="order-list">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>USER</th>
-              <th>PAID</th>
-              <th>PAID AT</th>
-              <th>DELIVERED</th>
-              <th>DELIVERED AT</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order._id}>
-                <td>{order._id}</td>
-                <td>{order.createdAt}</td>
-                <td>{order.totalPrice}</td>
-                <td>{order.user.name}</td>
-                <td>{order.isPaid.toString()}</td>
-                <td>{order.paidAt}</td>
-                <td>{order.isDelivered.toString()}</td>
-                <td>{order.deliveredAt}</td>
-                <td>
-                  <Link
-                    to={"/orders/" + order._id}
-                    className="button secondary"
-                  >
-                    Details
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => deleteHandler(order)}
-                    className="button secondary"
-                  >
-                    Delete
-                  </button>
-                </td>
+
+  return (
+    <div>
+      {" "}
+      <div>
+        <h1>Orders</h1>
+        {loadingDelete && <LoadingBox></LoadingBox>}
+        {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
+        {loading ? (
+          <LoadingBox></LoadingBox>
+        ) : error ? (
+          <MessageBox variant="danger">{error}</MessageBox>
+        ) : (
+          <table className="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>USER</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Paid</th>
+                <th>Delivered</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order._id}>
+                  <td>{order._id}</td>
+                  <td>{order.user.name}</td>
+                  <td>{order.createdAt.substring(0, 10)}</td>
+                  <td>{order.totalPrice.toFixed(2)}</td>
+                  <td>{order.isPaid ? order.paidAt : "No"}</td>
+                  <td>
+                    {order.isDelivered
+                      ? order.deliveredAt.substring(0, 10)
+                      : "No"}
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="small"
+                      onClick={() => {
+                        props.history.push(`/order/${order._id}`);
+                      }}
+                    >
+                      Details
+                    </button>
+                    <button
+                      type="button"
+                      className="small"
+                      onClick={() => deleteHandler(order)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );
 }
-export default OrdersScreen;

@@ -33,37 +33,29 @@ const listProducts =
     }
   };
 
-const saveProduct = (product) => async (dispatch, getState) => {
+const saveProduct = () => async (dispatch, getState) => {
   dispatch({ type: PRODUCT_SAVE_REQUEST });
   const {
     userSignin: { userInfo },
   } = getState();
   try {
-    if (!product._id) {
-      const { data } = await axios.post(
-        "/api/products",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        }
-      );
-      dispatch({ type: PRODUCT_SAVE_SUCCESS, payload: data.product });
-    } else {
-      const { data } = await axios.put(
-        `/api/products/${product._id}`,
-        product,
-        {
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        }
-      );
-      dispatch({ type: PRODUCT_SAVE_SUCCESS, payload: data });
-    }
+    const { data } = await axios.post(
+      "/api/products",
+      {},
+      {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      }
+    );
+    dispatch({
+      type: PRODUCT_SAVE_SUCCESS,
+      payload: data.product,
+    });
   } catch (error) {
-    dispatch({ type: PRODUCT_SAVE_FAIL, payload: error.message });
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: PRODUCT_SAVE_FAIL, payload: message });
   }
 };
 

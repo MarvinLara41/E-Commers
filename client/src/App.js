@@ -59,7 +59,7 @@ function App() {
                     <Link to="/profile">Profile</Link>
                   </li>
                   <li>
-                    <Link to="/orderhistory">Order History</Link>
+                    <Link to="/orders">Order History</Link>
                   </li>
                   <li>
                     <Link to="#signout" onClick={signoutHandler}>
@@ -82,14 +82,11 @@ function App() {
                   </li>
 
                   <li>
-                    <Link to="/productlist">Product List</Link>
+                    <Link to="/products">Product List</Link>
                   </li>
 
                   <li>
-                    <Link to="/orderlist">Order List</Link>
-                  </li>
-                  <li>
-                    <Link to="/userlist">Users</Link>
+                    <Link to="/orders">Order List</Link>
                   </li>
                 </ul>
               </div>
